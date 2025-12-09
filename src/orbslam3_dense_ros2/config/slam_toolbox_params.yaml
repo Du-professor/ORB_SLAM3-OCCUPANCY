@@ -1,0 +1,46 @@
+# slam_toolbox_params.yaml
+slam_toolbox:
+  ros__parameters:
+    # Plugin params
+    solver_plugin: "solver_plugins::CeresSolver"
+    ceres_solver_options:
+      use_nonmonotonic_steps: false
+      max_num_iterations: 50
+      num_threads: 1
+
+    # ROS Parameters
+    odom_frame: "odom"
+    map_frame: "map"
+    base_frame: "camera_link" # Should match the frame of your robot/camera
+    scan_topic: "/scan"
+    
+    # Mode: mapping or localization
+    mode: "mapping" # "mapping" or "localization"
+
+    # General Parameters
+    use_scan_matching: true
+    use_scan_barycenter: true
+    minimum_travel_distance: 0.2
+    minimum_travel_heading: 0.17 # ~10 degrees
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 10.0
+    
+    # Map update parameters
+    map_update_interval: 5.0
+    resolution: 0.05
+    max_laser_range: 5.0
+    
+    # Ceres Scan Matcher Parameters
+    ceres_scan_matcher:
+      occupied_space_weight: 20.0
+      translation_weight: 10.0
+      rotation_weight: 40.0
+      
+    # Other settings
+    use_map_saving: true
+    map_file_name: "my_map"
+    
+    # Important for using external odometry (from ORB-SLAM3)
+    use_odometry_information: false # Set to false to rely on TF from ORB-SLAM3
+    transform_publish_period: 0.02 # 50hz
+    map_visualization_throttle_rate: 1.0

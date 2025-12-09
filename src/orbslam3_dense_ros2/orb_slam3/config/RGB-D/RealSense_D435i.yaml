@@ -1,0 +1,81 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# Camera Parameters. Adjust them!
+# 相机参数：若更换相机/分辨率，请务必重新标定并更新此处
+#--------------------------------------------------------------------------------------------
+File.version: "1.0"   # 配置版本；便于跟踪标定文件更新
+
+Camera.type: "PinHole" # 光学模型类型（针孔、鱼眼等）
+
+# Right Camera calibration and distortion parameters (OpenCV)
+# fx/fy 为焦距像素值，cx/cy 为主点坐标，来源于相机标定
+Camera1.fx: 379.4932556152344
+Camera1.fy: 379.2383728027344
+Camera1.cx: 316.54534912109375
+Camera1.cy: 245.38729858398438
+
+
+# distortion parameters
+# 径向 (k1-k3) + 切向 (p1-p2) 畸变系数；如已做去畸变可置 0
+# Camera1.k1: 0.0
+# Camera1.k2: 0.0
+# Camera1.p1: 0.0
+# Camera1.p2: 0.0
+Camera1.k1: -0.05445488914847374
+Camera1.k2: 0.065945722162723541
+Camera1.p1: -0.00036503968294709921
+Camera1.p2: 0.0011364475358277559
+Camera1.k3: -0.021424319595098495
+
+# Camera resolution
+Camera.width: 640   # 图像宽（像素）
+Camera.height: 480  # 图像高（像素）
+
+# Camera frames per second 
+Camera.fps: 30      # 期望输入帧率（Hz）
+
+# Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
+Camera.RGB: 1       # 彩色顺序：0=BGR，1=RGB
+
+# Close/Far threshold. Baseline times.
+# ThDepth 控制可接受的最大深度（米）；越小越关注近景
+Stereo.ThDepth: 4.5
+Stereo.b: 0.0745   # 红外相机基线（米）
+
+# Depth map values factor
+RGBD.DepthMapFactor: 550.0  # 原始深度值除以该因子得到米
+
+#--------------------------------------------------------------------------------------------
+# ORB Parameters
+#--------------------------------------------------------------------------------------------
+# ORB Extractor: Number of features per image
+# 每帧提取的 ORB 特征数量（越大越密集，但耗时增加）
+ORBextractor.nFeatures:600
+
+# ORB Extractor: Scale factor between levels in the scale pyramid 	
+ORBextractor.scaleFactor: 1.25   # 金字塔层间缩放因子
+
+# ORB Extractor: Number of levels in the scale pyramid	
+ORBextractor.nLevels: 5          # 金字塔层数
+
+# ORB Extractor: Fast threshold
+# iniThFAST 为首轮 FAST 阈值；若某网格检测不到角点，则退回到 minThFAST
+# 场景对比度低时可降低二者以获得更多角点
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 8
+
+#--------------------------------------------------------------------------------------------
+# Viewer Parameters
+#--------------------------------------------------------------------------------------------
+# 仅影响 Pangolin 可视化窗口，与后端优化无关
+Viewer.KeyFrameSize: 0.05       # 关键帧立方体尺寸
+Viewer.KeyFrameLineWidth: 1.0   # 关键帧边框线宽
+Viewer.GraphLineWidth: 0.9      # 图优化线宽
+Viewer.PointSize: 2.0           # MapPoint 点云大小
+Viewer.CameraSize: 0.08         # 当前相机模型尺寸
+Viewer.CameraLineWidth: 3.0     # 相机模型线宽
+Viewer.ViewpointX: 0.0          # 观察视角（世界坐标）
+Viewer.ViewpointY: -0.6
+Viewer.ViewpointZ: -2.8
+Viewer.ViewpointF: 500.0        # 视点焦距
