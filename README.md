@@ -199,22 +199,22 @@ sudo rm /swapfile
 ```
 
 ### 6. 安装和使用
-创建工作空间
+直接安装项目
 ```bash
-mkdir -p ~/robot_ws
-cd ~/robot_ws
+cd 
 git clone https://github.com/Du-professor/ORB_SLAM3-OCCUPANCY.git
-cd ~/src
+cd ~/ORB_SLAM3-OCCUPANCY
 colcon build --packages-select orbslam3_dense_ros2 occupancy_grid_map
 ```
 运行项目
 ```bash
-#第一个终端
-cd /robot_ws/src/orbslam3_dense_ros2
+#第一个终端启动相机
+cd /ORB_SLAM3-OCCUPANCY/src/orbslam3_dense_ros2
 ./run_rgbd.sh
 
 # 第二个终端使用launch文件启动
-source /home/test/robot_ws/install/setup.bash
+cd /ORB_SLAM3-OCCUPANCY
+source /home/test/ORB_SLAM3-OCCUPANCY/install/setup.bash
 ros2 launch orbslam3_dense_ros2 slam_system.launch.py
 
 #查看GPU利用率
@@ -225,7 +225,7 @@ jtop
 默认 launch 会同时启动：
 orb_slam3_main主程序（RGB-D SLAM）
 occupancy_grid_map（slam/filtered_cloud，输出 2D 栅格 slam/occupancy_grid）
-rviz2(/home/test/robot_ws/install/orbslam3_dense_ros2/share/orbslam3_dense_ros2/config/rviz_config.rviz）
+rviz2(/home/test/ORB_SLAM3-OCCUPANCY/install/orbslam3_dense_ros2/share/orbslam3_dense_ros2/config/rviz_config.rviz）
 
 常用 Launch 参数速览：
 filtered_cloud_topic：稠密点云下采样后的输出话题，默认/slam/filtered_cloud
@@ -236,13 +236,13 @@ start_rviz / rviz_config：是否自动启动 RViz 以及配置文件路径，�
 
 #### 清理编译的产物命令
 ```bash
-cd ~/robot_ws
+cd ~/ORB_SLAM3-OCCUPANCY
 rm -rf build install log
 ```
 
 ### 修改代码参数
 相关代码根据实际需要更改
-robot_ws/src/orbslam3_dense_ros2/orb_slam3/config/RGB-D/RealSense_D435i.yaml
+#### ORB_SLAM3-OCCUPANCY/src/orbslam3_dense_ros2/orb_slam3/config/RGB-D/RealSense_D435i.yaml
 ```bash
 %YAML:1.0
 #--------------------------------------------------------------------------------------------
@@ -325,7 +325,8 @@ Viewer.ViewpointY: -0.6
 Viewer.ViewpointZ: -2.8
 Viewer.ViewpointF: 500.0        # 视点焦距
 ```
-robot_ws/src/orbslam3_dense_ros2/run_rgbd.sh
+
+#### ORB_SLAM3-OCCUPANCY/src/orbslam3_dense_ros2/run_rgbd.sh
 ```bash
 ros2 launch realsense2_camera rs_launch.py \
     enable_color:=true \
@@ -356,7 +357,5 @@ ros2 launch realsense2_camera rs_launch.py \
 - https://github.com/LeonardoDiCaprio1/Map_ORBSLAM_ROS/
 - [https://github.com/suchetanrs/ORB-SLAM3-ROS2-Docker](https://github.com/zgfbupt/orbslam3_dense_ros2)
 - 
-- 
 ---
-
 *注意：本指南基于Ubuntu 22.04和ROS2 Humble版本编写，其他系统版本可能需要相应调整。*
