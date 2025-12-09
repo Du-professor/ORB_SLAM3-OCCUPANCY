@@ -10,7 +10,6 @@
 ---
 
 ## 环境配置步骤
-
 ### 1. 安装 ROS 2 (Humble)
 **推荐方法**：使用小鱼 ROS 一键安装脚本
 1. 获取「小鱼一键安装系列」脚本
@@ -24,35 +23,34 @@ wget http://fishros.com/install -O fishros && . fishros
 
 ### 2.安装 ROS2 Humble RealSense 包
 （支持您的 RealSense 相机（如 D435/D435i/D455等）的驱动）
-# 确保 ROS2 环境已激活
+#### 确保 ROS2 环境已激活
 ```bash
 source /opt/ros/humble/setup.bash
 ```
-# 注册public key
+#### 注册public key
 ```bash
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
 ```
-# 添加apt源
+#### 添加apt源
 ```bash
 sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 ```
 
-# 方法 A：从二进制包安装（推荐，最简单）
+#### 方法 A：从二进制包安装（推荐，最简单）
 ```bash
 sudo apt install -y ros-humble-realsense2-camera ros-humble-realsense2-description
 ```
 
 ### 3. 安装 CUDA + cuDNN（GPU加速，可选）
 下载适合系统的CUDA Toolkit（推荐CUDA 12.6）
-# CUDA Toolkit Installer
+#### CUDA Toolkit Installer
 ```bash
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-6
 ```
-# Driver Installer
-
+#### Driver Installer
 ```bash
 sudo apt-get install -y nvidia-open
 sudo apt-get install -y cuda-drivers
@@ -83,11 +81,11 @@ $ nvidia-smi
 
 ### 4. 安装 vSLAM 依赖库
 安装基础编译工具和依赖库：
-# Eigen3
+#### Eigen3
 ```bash
 sudo apt install libeigen3-dev
 ```
-# Pangolin
+#### Pangolin
 ```bash
 cd ~
 git clone https://github.com/stevenlovegrove/Pangolin
@@ -99,7 +97,7 @@ make -j$(nproc)
 sudo make install
 ```
 
-# OpenCV
+#### OpenCV
 本项目使用的是带有CUDA加速的OpenCV-4.10,根据项目需求可以自行更改
 先更新apt：
 ```bash
@@ -236,7 +234,7 @@ enable_occupancy：是否启用 2D 栅格节点（默认 true）
 occupancy_config：占据栅格 YAML（默认为安装目录下的 config/occupancy_grid_map.param.yaml）
 start_rviz / rviz_config：是否自动启动 RViz 以及配置文件路径，默认使用安装目录中的 `rviz_config.rviz`
 
-# 清理编译的产物命令
+#### 清理编译的产物命令
 ```bash
 cd ~/robot_ws
 rm -rf build install log
@@ -346,7 +344,7 @@ ros2 launch realsense2_camera rs_launch.py \
     pointcloud.enable:=true
 ```
 
-## 注意事项与建议
+### 注意事项与建议
 1. **平台兼容性**：Jetson等嵌入式平台使用ROS2 Humble时，需确保系统为Ubuntu 22.04
 2. **OpenCV版本管理**：避免多个OpenCV版本共存，建议删除旧版本后安装兼容版本（如OpenCV 4.5.x/4.6.0）
 3. **版本兼容性**：使用GPU加速时，确保CUDA、cuDNN、OpenCV、PyTorch等版本相互兼容
