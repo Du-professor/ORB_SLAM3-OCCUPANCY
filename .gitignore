@@ -1,0 +1,26 @@
+# ROS2 / colcon workspace build outputs
+build/
+install/
+log/
+
+# VS Code
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+CTestTestfile.cmake
+CTestCustom.cmake
+CTestConfiguration.ini
+
+# Others
+*.swp
+*.swo
