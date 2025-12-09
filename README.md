@@ -3,9 +3,9 @@
 ## 目标
 建立一个包含以下组件的开发环境：
 -ROS 2 (Humble) &nbsp
-- RealSense 相机 + ROS2 wrapper &nbsp
-- CUDA + cuDNN (用于 GPU 加速，可选)&nbsp
-- GPU 加速的 OpenCV + Pangolin + Eigen3 &nbsp
+- RealSense 相机 + ROS2 wrapper 
+- CUDA + cuDNN (用于 GPU 加速，可选)
+- GPU 加速的 OpenCV + Pangolin + Eigen3
 - 使用 ORB-SLAM3 + ROS2 的 vSLAM 系统
 ---
 
