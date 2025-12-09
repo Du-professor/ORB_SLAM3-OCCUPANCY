@@ -68,12 +68,14 @@ export LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 ```bash
 source ~/.bashrc
 ```
-
+#### 所需配置
+---
 JetPack - 6.2 (also compatible with 6.1)
 CUDA - 12.6
 Python - 3.10
 cuSPARSELt - 0.7.0
-CUDA installation can be verified with -
+CUDA installation can be verified with 
+---
 ```bash
 nvcc --version
 $ nvidia-smi
