@@ -44,6 +44,7 @@ sudo apt install -y ros-humble-realsense2-camera ros-humble-realsense2-descripti
 ### 3. 安装 CUDA + cuDNN（GPU加速，可选）
 下载适合系统的CUDA Toolkit（推荐CUDA 12.6）
 #### CUDA Toolkit Installer
+ownload Installer for Linux Ubuntu 22.04 arm64-sbsa
 ```bash
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
@@ -172,7 +173,6 @@ sudo /bin/bash -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf'
 sudo ldconfig
 ```
 
-
 ### 5. 创建额外的 Swap 文件（推荐）
 为避免构建因显存不足而中断
 ```bash
@@ -215,7 +215,7 @@ colcon build --packages-select orbslam3_dense_ros2 occupancy_grid_map
 cd /ORB_SLAM3-OCCUPANCY/src/orbslam3_dense_ros2
 ./run_rgbd.sh
 
-# 第二个终端使用launch文件启动
+#第二个终端使用launch文件启动
 cd /ORB_SLAM3-OCCUPANCY
 source /home/test/ORB_SLAM3-OCCUPANCY/install/setup.bash
 ros2 launch orbslam3_dense_ros2 slam_system.launch.py
@@ -353,8 +353,8 @@ ros2 launch realsense2_camera rs_launch.py \
 2. **OpenCV版本管理**：避免多个OpenCV版本共存，建议删除旧版本后安装兼容版本（如OpenCV 4.5.x/4.6.0）
 3. **版本兼容性**：使用GPU加速时，确保CUDA、cuDNN、OpenCV、PyTorch等版本相互兼容
 4. **容器化方案**：考虑使用Docker容器避免环境冲突，多个GitHub仓库提供相关Docker镜像
-
 ---
+
 ## 项目参考资源
 - [https://github.com/Mechazo11/ros2_orb_slam3](https://github.com/Mechazo11/ros2_orb_slam3)
 - https://github.com/LeonardoDiCaprio1/Map_ORBSLAM_ROS/
