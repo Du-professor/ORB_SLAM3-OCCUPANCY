@@ -205,14 +205,146 @@ sudo rm /swapfile
 ```bash
 mkdir -p ~/robot_ws
 cd ~/robot_ws
-git clone https://github.com/zgfbupt/orbslam3_dense_ros2.git](https://github.com/Du-professor/ORB_SLAM3-OCCUPANCY.git)
-cd ../
+git clone https://github.com/Du-professor/ORB_SLAM3-OCCUPANCY.git
+cd ~/src
 colcon build --packages-select orbslam3_dense_ros2 occupancy_grid_map
 ```
+运行项目
+```bash
+#第一个终端
+cd /robot_ws/src/orbslam3_dense_ros2
+./run_rgbd.sh
 
-然后启动ORB-SLAM3 ROS2节点，开始vSLAM建图测试。
+# 第二个终端使用launch文件启动
+source /home/test/robot_ws/install/setup.bash
+ros2 launch orbslam3_dense_ros2 slam_system.launch.py
 
----
+#查看GPU利用率
+sudo tegrastats
+jtop
+```
+
+默认 launch 会同时启动：
+orb_slam3_main主程序（RGB-D SLAM）
+occupancy_grid_map（slam/filtered_cloud，输出 2D 栅格 slam/occupancy_grid）
+rviz2(/home/test/robot_ws/install/orbslam3_dense_ros2/share/orbslam3_dense_ros2/config/rviz_config.rviz）
+
+常用 Launch 参数速览：
+filtered_cloud_topic：稠密点云下采样后的输出话题，默认/slam/filtered_cloud
+filtered_voxel_leaf_size、filtered_min_range/max_range、filtered_min_z/max_z：发布器的点云裁剪与体素参数
+enable_occupancy：是否启用 2D 栅格节点（默认 true）
+occupancy_config：占据栅格 YAML（默认为安装目录下的 config/occupancy_grid_map.param.yaml）
+start_rviz / rviz_config：是否自动启动 RViz 以及配置文件路径，默认使用安装目录中的 `rviz_config.rviz`
+
+# 清理编译的产物命令
+```bash
+cd ~/robot_ws
+rm -rf build install log
+```
+
+### 修改代码参数
+相关代码根据实际需要更改
+robot_ws/src/orbslam3_dense_ros2/orb_slam3/config/RGB-D/RealSense_D435i.yaml
+```bash
+%YAML:1.0
+#--------------------------------------------------------------------------------------------
+# Camera Parameters. Adjust them!
+# 相机参数：若更换相机/分辨率，请务必重新标定并更新此处
+#--------------------------------------------------------------------------------------------
+File.version: "1.0"   # 配置版本；便于跟踪标定文件更新
+
+Camera.type: "PinHole" # 光学模型类型（针孔、鱼眼等）
+
+# Right Camera calibration and distortion parameters (OpenCV)
+# fx/fy 为焦距像素值，cx/cy 为主点坐标，来源于相机标定
+Camera1.fx: 379.4932556152344
+Camera1.fy: 379.2383728027344
+Camera1.cx: 316.54534912109375
+Camera1.cy: 245.38729858398438
+
+
+# distortion parameters
+# 径向 (k1-k3) + 切向 (p1-p2) 畸变系数；如已做去畸变可置 0
+# Camera1.k1: 0.0
+# Camera1.k2: 0.0
+# Camera1.p1: 0.0
+# Camera1.p2: 0.0
+Camera1.k1: -0.05445488914847374
+Camera1.k2: 0.065945722162723541
+Camera1.p1: -0.00036503968294709921
+Camera1.p2: 0.0011364475358277559
+Camera1.k3: -0.021424319595098495
+
+# Camera resolution
+Camera.width: 640   # 图像宽（像素）
+Camera.height: 480  # 图像高（像素）
+
+# Camera frames per second 
+Camera.fps: 30      # 期望输入帧率（Hz）
+
+# Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
+Camera.RGB: 1       # 彩色顺序：0=BGR，1=RGB
+
+# Close/Far threshold. Baseline times.
+# ThDepth 控制可接受的最大深度（米）；越小越关注近景
+Stereo.ThDepth: 4.5
+Stereo.b: 0.0745   # 红外相机基线（米）
+
+# Depth map values factor
+RGBD.DepthMapFactor: 550.0  # 原始深度值除以该因子得到米
+
+#--------------------------------------------------------------------------------------------
+# ORB Parameters
+#--------------------------------------------------------------------------------------------
+# ORB Extractor: Number of features per image
+# 每帧提取的 ORB 特征数量（越大越密集，但耗时增加）
+ORBextractor.nFeatures:600
+
+# ORB Extractor: Scale factor between levels in the scale pyramid 	
+ORBextractor.scaleFactor: 1.25   # 金字塔层间缩放因子
+
+# ORB Extractor: Number of levels in the scale pyramid	
+ORBextractor.nLevels: 5          # 金字塔层数
+
+# ORB Extractor: Fast threshold
+# iniThFAST 为首轮 FAST 阈值；若某网格检测不到角点，则退回到 minThFAST
+# 场景对比度低时可降低二者以获得更多角点
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 8
+
+#--------------------------------------------------------------------------------------------
+# Viewer Parameters
+#--------------------------------------------------------------------------------------------
+# 仅影响 Pangolin 可视化窗口，与后端优化无关
+Viewer.KeyFrameSize: 0.05       # 关键帧立方体尺寸
+Viewer.KeyFrameLineWidth: 1.0   # 关键帧边框线宽
+Viewer.GraphLineWidth: 0.9      # 图优化线宽
+Viewer.PointSize: 2.0           # MapPoint 点云大小
+Viewer.CameraSize: 0.08         # 当前相机模型尺寸
+Viewer.CameraLineWidth: 3.0     # 相机模型线宽
+Viewer.ViewpointX: 0.0          # 观察视角（世界坐标）
+Viewer.ViewpointY: -0.6
+Viewer.ViewpointZ: -2.8
+Viewer.ViewpointF: 500.0        # 视点焦距
+```
+robot_ws/src/orbslam3_dense_ros2/run_rgbd.sh
+```bash
+ros2 launch realsense2_camera rs_launch.py \
+    enable_color:=true \
+    rgb_camera.color_profile:=640x480x30 \
+    enable_depth:=true \
+    depth_module.depth_profile:=640x480x30 \
+    enable_infra:=false \
+    enable_infra1:=false \
+    enable_infra2:=false \
+    depth_module.infra_profile:=640x480x30 \
+    enable_rgbd:=true \
+    align_depth.enable:=true \
+    enable_sync:=true \
+    enable_gyro:=false \
+    enable_accel:=false \
+    pointcloud.enable:=true
+```
 
 ## 注意事项与建议
 1. **平台兼容性**：Jetson等嵌入式平台使用ROS2 Humble时，需确保系统为Ubuntu 22.04
@@ -221,14 +353,12 @@ colcon build --packages-select orbslam3_dense_ros2 occupancy_grid_map
 4. **容器化方案**：考虑使用Docker容器避免环境冲突，多个GitHub仓库提供相关Docker镜像
 
 ---
-
 ## 项目参考资源
-- **ORB-SLAM3 ROS2包 (Humble)**：https://github.com/Mechazo11/ros2_orb_slam3
-- **ORB-SLAM3 ROS2 Docker包装器**：
-  - https://github.com/Gwardii/ORB-SLAM3-ROS2
-  - https://github.com/suchetanrs/ORB-SLAM3-ROS2-Docker
-- **ROS2官方文档**：https://docs.ros.org/en/humble/index.html
-
+- [https://github.com/Mechazo11/ros2_orb_slam3](https://github.com/Mechazo11/ros2_orb_slam3)
+- https://github.com/LeonardoDiCaprio1/Map_ORBSLAM_ROS/
+- [https://github.com/suchetanrs/ORB-SLAM3-ROS2-Docker](https://github.com/zgfbupt/orbslam3_dense_ros2)
+- 
+- 
 ---
 
 *注意：本指南基于Ubuntu 22.04和ROS2 Humble版本编写，其他系统版本可能需要相应调整。*
