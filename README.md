@@ -1,5 +1,5 @@
 # vSLAM 建图环境配置指南
-
+<img width="1496" height="841" alt="image" src="https://github.com/user-attachments/assets/b91b0a14-2924-4420-b6af-9b23d844eea2" />
 ## 目标
 建立一个包含以下组件的开发环境：
 - ROS 2 (Humble)
