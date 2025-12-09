@@ -1,5 +1,3 @@
-好的 — 我帮你把你给的内容整理成一个适合放在 README.md 的 Markdown 模板。你可以把它复制到 README 文件里，再根据需要调整。
-
 ````markdown
 # 环境搭建 — ROS2 + RealSense + CUDA + cuDNN + ORB-SLAM3 (vSLAM)
 
