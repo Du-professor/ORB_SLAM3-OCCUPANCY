@@ -11,7 +11,7 @@
 
 ## 环境配置步骤
 ### docker安装
-https://tianchi.aliyun.com/course/351/4119
+https://tianchi.aliyun.com/course/351/4118
 ### 1. 安装 ROS 2 (Humble)
 **推荐方法**：使用小鱼 ROS 一键安装脚本
 1. 获取「小鱼一键安装系列」脚本
