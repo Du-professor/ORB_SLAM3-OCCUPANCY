@@ -10,6 +10,7 @@
 ---
 
 ## 环境配置步骤
+### docker安装https://www.yuque.com/yuqueyonghuxc8etz/tbgbay/pm4lc8xu4in7ncbt?singleDoc# 《Docker》
 ### 1. 安装 ROS 2 (Humble)
 **推荐方法**：使用小鱼 ROS 一键安装脚本
 1. 获取「小鱼一键安装系列」脚本
@@ -20,6 +21,7 @@ wget http://fishros.com/install -O fishros && . fishros
 
 **备用方法**：官方二进制安装（适用于 Ubuntu 22.04）
 按照官方指南安装：https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
+
 
 ### 2.安装 ROS2 Humble RealSense 包
 （支持您的 RealSense 相机（如 D435/D435i/D455等）的驱动）
